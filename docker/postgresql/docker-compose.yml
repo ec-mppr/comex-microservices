@@ -2,7 +2,7 @@
 services:
   db:
     image: postgres:16
-    container_name: postgres16
+    container_name: postgres16_microservices
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin

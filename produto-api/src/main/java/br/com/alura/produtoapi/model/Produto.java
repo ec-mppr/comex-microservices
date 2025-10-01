@@ -1,6 +1,6 @@
-package br.com.alura.comex.model;
+package br.com.alura.produtoapi.model;
 
-import jakarta.persistence.CascadeType;
+import br.com.alura.produtoapi.dto.ProdutoDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,19 +9,32 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Produto {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-
     private String descricao;
-
+    private Integer quantidade;
     private double preco;
 
-    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToOne
     private Categoria categoria;
+
+    public Produto() {
+    }
+
+    public Produto(String nome, double preco, String descricao, Integer quantidade, Categoria categoria) {
+        this.nome = nome;
+        this.preco = preco;
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.categoria = categoria;
+    }
+
+    public static Produto fromRecord(ProdutoDto record, Categoria categoria) {
+        return new Produto(record.nome(), record.preco(), record.descricao(), record.quantidade(), categoria);
+    }
 
     public Long getId() {
         return id;
@@ -53,6 +66,14 @@ public class Produto {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 
     public Categoria getCategoria() {
